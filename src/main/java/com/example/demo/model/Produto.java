@@ -3,6 +3,11 @@ package com.example.demo.model;
 public class Produto {
     public Produto() {
     }
+
+    public Produto(String descricao, double valor) {
+        Long c = getCodigo();
+
+    }
     private Long codigo;
     private String descricao;
     private double valor;

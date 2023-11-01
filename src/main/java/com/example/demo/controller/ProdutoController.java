@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.NovoProduto;
 import com.example.demo.model.Produto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +15,46 @@ public class ProdutoController {
     private  Produto prod;
     private Long codigo = Long.valueOf(1);
 
-    @GetMapping()
+    public List<Produto> getListaProduto() {
+        return listaProduto;
+    }
+
+    public Produto getProd() {
+        return prod;
+    }
+
+    public void setProd(Produto prod) {
+        this.prod = prod;
+    }
+
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+
+    @GetMapping("/teste")
     public String teste() {
-        return "Java testehhhh";
+        return "Java teste";
+    }
+
+    @GetMapping()
+    public List<Produto> listarTodos() {
+        return listaProduto;
+    }
+
+    @PostMapping()
+    public Produto adicionarProduto(@RequestBody NovoProduto novoProduto) {
+        int c = listaProduto.size();
+        System.out.printf(novoProduto.getDescricao());
+        Produto p = new Produto();
+        p.setCodigo(Long.valueOf(1+c));
+        p.setDescricao(novoProduto.getDescricao());
+        p.setValor(novoProduto.getValor());
+        listaProduto.add(p);
+        return p;
     }
 
 }

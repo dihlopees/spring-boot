@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.NovoProduto;
 import com.example.demo.model.Produto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -44,17 +46,44 @@ public class ProdutoController {
     public List<Produto> listarTodos() {
         return listaProduto;
     }
-
+    int c = 1;
     @PostMapping()
     public Produto adicionarProduto(@RequestBody NovoProduto novoProduto) {
-        int c = listaProduto.size();
-        System.out.printf(novoProduto.getDescricao());
         Produto p = new Produto();
-        p.setCodigo(Long.valueOf(1+c));
+        p.setCodigo(Long.valueOf(c++));
         p.setDescricao(novoProduto.getDescricao());
         p.setValor(novoProduto.getValor());
         listaProduto.add(p);
         return p;
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> listarProduto(@PathVariable(value = "id") Long id){
+        if(!listaProduto.isEmpty()) {
+            for(Produto p : listaProduto) {
+                if(p.getCodigo() == id) return ResponseEntity.status(HttpStatus.OK).body(p);
+            }
+        }return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> altProduto(@PathVariable(value = "id") Long id, @RequestBody Produto prod){
+         if(!listaProduto.isEmpty()) {
+            for(Produto p : listaProduto) {
+                if(p.getCodigo() == id) {
+                    p.setDescricao(prod.getDescricao());
+                    p.setValor(prod.getValor());
+                }
+            }
+        }return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delProd(@PathVariable(value = "id") Long id) {
+        if(!listaProduto.isEmpty()) {
+            for(Produto p : listaProduto) {
+                if(p.getCodigo() == id) listaProduto.remove(p);
+            }
+        }return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
     }
 
 }

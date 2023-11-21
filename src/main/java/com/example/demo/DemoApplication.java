@@ -1,12 +1,12 @@
 package com.example.demo;
 
-import com.example.demo.model.Produto;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Configuration
+@ComponentScan("com.example.demo.service")
 @SpringBootApplication
 public class DemoApplication {
 

@@ -1,38 +1,92 @@
 package com.example.demo.model;
 
-public class Produto {
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+
+@Entity
+@Table(name = "Produto")
+public class Produto implements Serializable {
+
     public Produto() {
     }
 
-    public Produto(String descricao, double valor) {
-        Long c = getCodigo();
+    @Id
+    @GeneratedValue()
+    @Column( name = "CODIGO" )
+    private Integer codigo;
 
-    }
-    private Long codigo;
+    @Column( name = "DESCRICAO" )
     private String descricao;
-    private double valor;
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo( Integer codigo ) {
+        this.codigo = codigo;
     }
 
     public String getDescricao() {
         return descricao;
     }
 
-    public Long getCodigo() {
-        return codigo;
+    public void setDescricao( String descricao ) {
+        this.descricao = descricao;
     }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+    public char getTipo() {
+        return tipo;
     }
 
-    public double getValor() {
+    public void setTipo( char tipo ) {
+        this.tipo = tipo;
+    }
+
+    public String getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade( String unidade ) {
+        this.unidade = unidade;
+    }
+
+    public String getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade( String quantidade ) {
+        this.quantidade = quantidade;
+    }
+
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor( Double valor ) {
         this.valor = valor;
     }
+
+    public Classificacao getClassificacao() {
+        return classificacao;
+    }
+
+    public void setClassificacao( Classificacao classificacao ) {
+        this.classificacao = classificacao;
+    }
+
+    @Column( name = "TIPO" )
+    private char tipo;
+    @Column( name = "UNIDADE" )
+    private String unidade;
+
+    @Column( name = "QUANTIDADE" )
+    private String quantidade;
+
+    @Column( name = "VALOR" )
+    private Double valor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn( name = "CODIGO_CLASSIFICACAO" )
+    private Classificacao classificacao;
 }

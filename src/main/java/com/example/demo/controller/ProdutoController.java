@@ -1,89 +1,44 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.NovoProduto;
 import com.example.demo.model.Produto;
+import com.example.demo.service.ClassificacaoService;
+import com.example.demo.service.ProdutoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/produto")
 public class ProdutoController {
 
-    private final List<Produto> listaProduto = new ArrayList<>();
-    private  Produto prod;
-    private Long codigo = Long.valueOf(1);
-
-    public List<Produto> getListaProduto() {
-        return listaProduto;
+    public ProdutoController() {
     }
 
-    public Produto getProd() {
-        return prod;
-    }
-
-    public void setProd(Produto prod) {
-        this.prod = prod;
-    }
-
-    public Long getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
-
-    @GetMapping("/teste")
-    public String teste() {
-        return "Java teste";
-    }
+    @Autowired
+    private ProdutoService service;
+    private ClassificacaoService classificacaoService;
 
     @GetMapping()
-    public List<Produto> listarTodos() {
-        return listaProduto;
-    }
-    int c = 1;
-    @PostMapping()
-    public Produto adicionarProduto(@RequestBody NovoProduto novoProduto) {
-        Produto p = new Produto();
-        p.setCodigo(Long.valueOf(c++));
-        p.setDescricao(novoProduto.getDescricao());
-        p.setValor(novoProduto.getValor());
-        listaProduto.add(p);
-        return p;
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> listarProduto(@PathVariable(value = "id") Long id){
-        if(!listaProduto.isEmpty()) {
-            for(Produto p : listaProduto) {
-                if(p.getCodigo() == id) return ResponseEntity.status(HttpStatus.OK).body(p);
-            }
-        }return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
+    public ResponseEntity<List<Produto>> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.listaProdutos());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> altProduto(@PathVariable(value = "id") Long id, @RequestBody Produto prod){
-         if(!listaProduto.isEmpty()) {
-            for(Produto p : listaProduto) {
-                if(p.getCodigo() == id) {
-                    p.setDescricao(prod.getDescricao());
-                    p.setValor(prod.getValor());
-                }
-            }
-        }return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
+    @GetMapping({"/{id}"})
+    public ResponseEntity<Object> getProduto(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.service.listaUmProduto(id));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delProd(@PathVariable(value = "id") Long id) {
-        if(!listaProduto.isEmpty()) {
-            for(Produto p : listaProduto) {
-                if(p.getCodigo() == id) listaProduto.remove(p);
-            }
-        }return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
+    @GetMapping({"/exercicio/{id}"})
+    public ResponseEntity<Object> resolucaoExercicio(@PathVariable("id") Integer id) {
+        if (id == 1) return ResponseEntity.status(HttpStatus.OK).body(this.service.exercicio1());
+        if (id == 2) return ResponseEntity.status(HttpStatus.OK).body(this.service.exercicio2());
+        if (id == 3) return ResponseEntity.status(HttpStatus.OK).body(this.service.exercicio3());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe o exercicio solicitado");
     }
-
 }

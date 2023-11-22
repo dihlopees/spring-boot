@@ -4,8 +4,9 @@ import com.example.demo.dto.Cep;
 import com.example.demo.service.CepService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class CepFacade {
     @Autowired
     private CepService service;

@@ -39,6 +39,7 @@ public class ProdutoController {
         if (id == 1) return ResponseEntity.status(HttpStatus.OK).body(this.service.exercicio1());
         if (id == 2) return ResponseEntity.status(HttpStatus.OK).body(this.service.exercicio2());
         if (id == 3) return ResponseEntity.status(HttpStatus.OK).body(this.service.exercicio3());
+        if (id == 4) return ResponseEntity.status(HttpStatus.OK).body(this.service.exercicio4());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe o exercicio solicitado");
     }
 }

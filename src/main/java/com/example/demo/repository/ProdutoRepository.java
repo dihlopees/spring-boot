@@ -17,4 +17,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     @Query("SELECT sum(p.valor) FROM Produto p WHERE p.descricao LIKE '%biscoito%'")
     public Double exercicio3();
+
+     @Query("SELECT p.descricao FROM Produto p WHERE p.descricao LIKE '%martelo%' and p.classificacao.descricao != 'material de Construção'")
+    public List<Produto> exercicio4();
 }

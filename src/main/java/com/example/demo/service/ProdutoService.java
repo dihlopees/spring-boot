@@ -33,4 +33,8 @@ public class ProdutoService {
     return repository.exercicio3();
     }
 
+    public List<Produto> exercicio4() {
+    return repository.exercicio4();
+    }
+
 }
